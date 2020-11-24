@@ -9,6 +9,9 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ManyToMany
+    @JoinColumn(name = "owner_id")
+
     private String name;
     private double price;
 
