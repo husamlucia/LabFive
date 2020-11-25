@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Games")
 public class Game {
+    @Column(name = "game_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -12,10 +13,12 @@ public class Game {
     @ManyToMany
     @JoinColumn(name = "owner_id")
 
+    @Column(name = "name")
     private String name;
+    @Column(name = "price")
     private double price;
 
-    public Game(int id, String name, double price) {
+    public Game(String name, double price) {
         this.name = name;
         this.price = price;
     }

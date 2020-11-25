@@ -6,11 +6,16 @@ import javax.persistence.*;
 @Table(name = "Customers")
 public class Customer {
 
+    @Column(name = "customer_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "firstname")
     private String fName;
+    @Column(name = "lastname")
     private String lName;
+    @Column(name = "email")
     private String email;
 
     public Customer(String fName, String lName, String email) {
