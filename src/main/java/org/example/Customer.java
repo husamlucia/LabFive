@@ -1,15 +1,26 @@
 package org.example;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "Customers")
 public class Customer {
 
-    @Column(name = "customer_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @ManyToMany(mappedBy = "customers",
+            targetEntity = Game.class
+    )
+    @JoinTable(name = "customer_games",
+            joinColumns = {@JoinColumn(name="time"),@JoinColumn(name="rating")},
+            inverseJoinColumns = @JoinColumn(name = "price", referencedColumnName = "price")
+    )
+    Set<Game> ownedGames;
+
 
     @Column(name = "firstname")
     private String fName;

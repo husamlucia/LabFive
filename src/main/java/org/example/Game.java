@@ -1,17 +1,18 @@
 package org.example;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "Games")
 public class Game {
-    @Column(name = "game_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @ManyToMany
-    @JoinColumn(name = "owner_id")
+    Set<Customer> owners;
 
     @Column(name = "name")
     private String name;
@@ -21,6 +22,15 @@ public class Game {
     public Game(String name, double price) {
         this.name = name;
         this.price = price;
+    }
+
+
+    public Set<Customer> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(Set<Customer> owners) {
+        this.owners = owners;
     }
 
     public int getId() {
