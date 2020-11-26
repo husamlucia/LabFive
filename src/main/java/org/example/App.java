@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.Date;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -26,20 +27,16 @@ public class App {
     }
 
 
-    private static void generateGames() throws Exception{
 
-        for(int i=0;i<5;i++){
-         Game game = new Game("Game"+i,i*50.0);
-         session.save(game);
-        }
-        session.flush();
-    }
-
-    private static void generateCustomers() throws Exception{
+    private static void generateData() throws Exception{
 
         for(int i=0;i<5;i++){
             Customer cust = new Customer("first"+i,"last"+i,i+"@gmail.com");
+            Game game = new Game("Game"+i,i*50.0);
             session.save(cust);
+            session.save(game);
+            CustomerGame order = new CustomerGame(cust, game, 5, new Date(System.currentTimeMillis()));
+            session.save(order);
         }
         session.flush();
     }
@@ -51,9 +48,7 @@ public class App {
             SessionFactory sessionFactory = getSessionFactory();
             session = sessionFactory.openSession();
             session.beginTransaction();
-
-            generateCustomers();
-            generateGames();
+            generateData();
 
             session.getTransaction().commit(); // Save everything.
         } catch (Exception exception) {

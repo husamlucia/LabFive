@@ -21,12 +21,12 @@ public class Customer {
             joinColumns = {@JoinColumn(name = "game_id")},
             inverseJoinColumns = @JoinColumn(name = "customer_id")
     )
-    private List<Game> ownedGames;
+    private List<CustomerGame> ownedGames;
 
-public void addGames(Game... games){
-    for(Game game : games){
+public void addGames(CustomerGame... games){
+    for(CustomerGame game : games){
         ownedGames.add(game);
-        game.getOwners().add(this);
+        game.getGame().getOwners().add(game);
     }
 }
 

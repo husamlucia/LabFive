@@ -22,7 +22,7 @@ public class Game {
             joinColumns = {@JoinColumn(name = "game_id")},
             inverseJoinColumns = @JoinColumn(name = "customer_id")
     )
-    private List<Customer> owners;
+    private List<CustomerGame> owners;
 
 
 
@@ -37,11 +37,11 @@ public class Game {
     }
 
 
-    public List<Customer> getOwners() {
+    public List<CustomerGame> getOwners() {
         return owners;
     }
 
-    public void setOwners(List<Customer> owners) {
+    public void setOwners(List<CustomerGame> owners) {
         this.owners = owners;
     }
 
