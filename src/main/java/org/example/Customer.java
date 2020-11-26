@@ -1,10 +1,10 @@
 package org.example;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
-@Table(name = "Customers")
+@Table(name = "customers")
 public class Customer {
 
     @Id
@@ -12,14 +12,23 @@ public class Customer {
     @Column(name = "id")
     private int id;
 
-    @ManyToMany(mappedBy = "customers",
+    @OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             targetEntity = Game.class
     )
-    @JoinTable(name = "customer_games",
-            joinColumns = {@JoinColumn(name="time"),@JoinColumn(name="rating")},
-            inverseJoinColumns = @JoinColumn(name = "price", referencedColumnName = "price")
+    @JoinTable(
+            name="games_customers",
+            joinColumns = {@JoinColumn(name = "game_id")},
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
     )
-    Set<Game> ownedGames;
+    private List<Game> ownedGames;
+
+public void addGames(Game... games){
+    for(Game game : games){
+        ownedGames.add(game);
+        game.getOwners().add(this);
+    }
+}
 
 
     @Column(name = "firstname")

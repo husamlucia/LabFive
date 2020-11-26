@@ -1,18 +1,30 @@
 package org.example;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "Games")
+@Table(name = "games")
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @ManyToMany
-    Set<Customer> owners;
+    @OneToMany(
+            mappedBy="game",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            targetEntity = CustomerGame.class
+    )
+    @JoinTable(
+            name="games_customers",
+            joinColumns = {@JoinColumn(name = "game_id")},
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
+    )
+    private List<Customer> owners;
+
+
 
     @Column(name = "name")
     private String name;
@@ -25,11 +37,11 @@ public class Game {
     }
 
 
-    public Set<Customer> getOwners() {
+    public List<Customer> getOwners() {
         return owners;
     }
 
-    public void setOwners(Set<Customer> owners) {
+    public void setOwners(List<Customer> owners) {
         this.owners = owners;
     }
 
