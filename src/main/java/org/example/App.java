@@ -19,7 +19,8 @@ public class App {
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(Game.class);
-        configuration.addAnnotatedClass(Customer.class);
+        configuration.addAnnotatedClass(Customer.class);;
+        configuration.addAnnotatedClass(CustomerGame.class);
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())
                 .build();

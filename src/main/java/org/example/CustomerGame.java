@@ -9,13 +9,21 @@ public class CustomerGame {
 
     public CustomerGame(Customer customer, Game game, int rating, Date date) {
         this.customer = customer;
+        customer.getOwned().add(this);
         this.game = game;
+        game.getOwners().add(this);
         this.rating = rating;
         this.date = date;
     }
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="customer_id")
     private Customer customer;
 
     @ManyToOne

@@ -1,7 +1,9 @@
 package org.example;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "customers")
@@ -12,25 +14,6 @@ public class Customer {
     @Column(name = "id")
     private int id;
 
-    @OneToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            targetEntity = Game.class
-    )
-    @JoinTable(
-            name="games_customers",
-            joinColumns = {@JoinColumn(name = "game_id")},
-            inverseJoinColumns = @JoinColumn(name = "customer_id")
-    )
-    private List<CustomerGame> ownedGames;
-
-public void addGames(CustomerGame... games){
-    for(CustomerGame game : games){
-        ownedGames.add(game);
-        game.getGame().getOwners().add(game);
-    }
-}
-
-
     @Column(name = "firstname")
     private String fName;
     @Column(name = "lastname")
@@ -38,10 +21,24 @@ public void addGames(CustomerGame... games){
     @Column(name = "email")
     private String email;
 
+
+    @OneToMany(mappedBy="customer")
+    List<CustomerGame> owned;
+
+
+    public List<CustomerGame> getOwned() {
+        return owned;
+    }
+
+    public void setOwned(List<CustomerGame> owned) {
+        this.owned = owned;
+    }
+
     public Customer(String fName, String lName, String email) {
         this.fName = fName;
         this.lName = lName;
         this.email = email;
+        this.owned = new ArrayList<CustomerGame>();
     }
 
     public int getId() {
