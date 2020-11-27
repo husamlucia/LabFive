@@ -13,6 +13,7 @@ public class CustomerGame {
         this.game = game;
         game.getOwners().add(this);
         this.price = game.getPrice();
+        customer.addToTotalPaid(game.getPrice());
         this.date = new Date(System.currentTimeMillis());
     }
 

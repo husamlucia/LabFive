@@ -13,14 +13,16 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
     @Column(name = "name")
     private String name;
     @Column(name = "price")
     private double price;
+
     @OneToMany(mappedBy = "game")
     List<CustomerGame> owners;
 
-    public int getAverageRating(){
+    public Integer getAverageRating(){
         Integer sum=0, size=owners.size();
         boolean found = false;
         for(CustomerGame purchase: owners){

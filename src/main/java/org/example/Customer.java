@@ -21,7 +21,17 @@ public class Customer {
     private String email;
     @OneToMany(mappedBy="customer")
     List<CustomerGame> owned;
-    
+
+    public double getTotalPaid() {
+        return totalPaid;
+    }
+
+    public void setTotalPaid(double totalPaid) {
+        this.totalPaid = totalPaid;
+    }
+
+    private double totalPaid;
+
     public List<CustomerGame> getOwned() {
         return owned;
     }
@@ -35,6 +45,11 @@ public class Customer {
         this.lName = lName;
         this.email = email;
         this.owned = new ArrayList<CustomerGame>();
+        this.totalPaid = 0;
+    }
+
+    public void addToTotalPaid(double price){
+        this.totalPaid += price;
     }
 
     public int getId() {
@@ -68,4 +83,5 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }
