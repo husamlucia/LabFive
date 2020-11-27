@@ -31,14 +31,34 @@ public class App {
 
     private static void generateData() throws Exception{
 
+        Customer[] customers = new Customer[5];
+        Game[] games = new Game[5];
+        CustomerGame[] orders = new CustomerGame[5];
+
         for(int i=0;i<5;i++){
-            Customer cust = new Customer("first"+i,"last"+i,i+"@gmail.com");
-            Game game = new Game("Game"+i,i*50.0);
-            session.save(cust);
-            session.save(game);
-            CustomerGame order = new CustomerGame(cust, game, 5, new Date(System.currentTimeMillis()));
-            session.save(order);
+            customers[i] = new Customer("first"+i,"last"+i,i+"@gmail.com");
+            games[i] = new Game("Game"+i,i*50.0);
+            session.save(customers[i]);
+            session.save(games[i]);
         }
+
+        orders[0] = new CustomerGame(customers[0], games[1]);
+        orders[1] = new CustomerGame(customers[0], games[3]);
+        orders[2] = new CustomerGame(customers[1], games[0]);
+        orders[3] = new CustomerGame(customers[1], games[2]);
+        orders[4] = new CustomerGame(customers[2], games[3]);
+
+
+        orders[0].setRating(1);
+        orders[1].setRating(2);
+        orders[2].setRating(5);
+        orders[3].setRating(3);
+        orders[4].setRating(4);
+        for(CustomerGame purchase: orders){
+            session.save(purchase);
+        }
+
+
         session.flush();
     }
 

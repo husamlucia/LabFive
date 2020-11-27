@@ -13,19 +13,15 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
     @Column(name = "firstname")
     private String fName;
     @Column(name = "lastname")
     private String lName;
     @Column(name = "email")
     private String email;
-
-
     @OneToMany(mappedBy="customer")
     List<CustomerGame> owned;
-
-
+    
     public List<CustomerGame> getOwned() {
         return owned;
     }

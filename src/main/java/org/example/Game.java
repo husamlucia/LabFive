@@ -8,19 +8,30 @@ import java.util.Set;
 @Entity
 @Table(name = "games")
 public class Game {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
     @Column(name = "name")
     private String name;
     @Column(name = "price")
     private double price;
-
     @OneToMany(mappedBy = "game")
     List<CustomerGame> owners;
 
+    public int getAverageRating(){
+        Integer sum=0, size=owners.size();
+        boolean found = false;
+        for(CustomerGame purchase: owners){
+            Integer rating = purchase.getRating();
+            if(rating != null){
+                found = true;
+                sum+= rating;
+            }
+        }
+        return found?sum/size:null;
+    }
 
     public List<CustomerGame> getOwners() {
         return owners;
@@ -30,13 +41,11 @@ public class Game {
         this.owners = owners;
     }
 
-
     public Game(String name, double price) {
         this.name = name;
         this.price = price;
         this.owners = new ArrayList<CustomerGame>();
     }
-
 
     public int getId() {
         return id;
