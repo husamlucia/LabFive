@@ -1,27 +1,42 @@
 package org.example;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "Games")
+@Table(name = "games")
 public class Game {
-    @Column(name = "game_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
-
-    @ManyToMany
-    @JoinColumn(name = "owner_id")
 
     @Column(name = "name")
     private String name;
     @Column(name = "price")
     private double price;
 
+    @OneToMany(mappedBy = "game")
+    List<CustomerGame> owners;
+
+
+    public List<CustomerGame> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(List<CustomerGame> owners) {
+        this.owners = owners;
+    }
+
+
     public Game(String name, double price) {
         this.name = name;
         this.price = price;
+        this.owners = new ArrayList<CustomerGame>();
     }
+
 
     public int getId() {
         return id;

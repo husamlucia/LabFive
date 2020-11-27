@@ -1,14 +1,17 @@
 package org.example;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "Customers")
+@Table(name = "customers")
 public class Customer {
 
-    @Column(name = "customer_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "firstname")
@@ -18,10 +21,24 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
+
+    @OneToMany(mappedBy="customer")
+    List<CustomerGame> owned;
+
+
+    public List<CustomerGame> getOwned() {
+        return owned;
+    }
+
+    public void setOwned(List<CustomerGame> owned) {
+        this.owned = owned;
+    }
+
     public Customer(String fName, String lName, String email) {
         this.fName = fName;
         this.lName = lName;
         this.email = email;
+        this.owned = new ArrayList<CustomerGame>();
     }
 
     public int getId() {
