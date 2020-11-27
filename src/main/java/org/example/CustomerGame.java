@@ -7,15 +7,15 @@ import java.util.Date;
 @Table(name="customer_games")
 public class CustomerGame {
 
-    public CustomerGame(Customer customer, Game game, int rating, Date date) {
+    public CustomerGame(Customer customer, Game game) {
         this.customer = customer;
         customer.getOwned().add(this);
         this.game = game;
         game.getOwners().add(this);
-        this.rating = rating;
-        this.date = date;
+        this.price = game.getPrice();
+        customer.addToTotalPaid(game.getPrice());
+        this.date = new Date(System.currentTimeMillis());
     }
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +31,13 @@ public class CustomerGame {
     private Game game;
 
     @Column(name="rating")
-    int rating;
+    Integer rating;
 
     @Column(name="purchase_date")
     Date date;
+
+    @Column(name="price")
+    double price;
 
     public Customer getCustomer() {
         return customer;
@@ -52,11 +55,11 @@ public class CustomerGame {
         this.game = game;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
