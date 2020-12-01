@@ -14,22 +14,24 @@ public class Game {
     @Column(name = "id")
     private int id;
 
+
     @Column(name = "name")
     private String name;
     @Column(name = "price")
     private double price;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game" )
     List<CustomerGame> owners;
 
     public Integer getAverageRating(){
-        Integer sum=0, size=owners.size();
+        Integer sum=0, size=0;
         boolean found = false;
         for(CustomerGame purchase: owners){
             Integer rating = purchase.getRating();
             if(rating != null){
                 found = true;
                 sum+= rating;
+                size++;
             }
         }
         return found?sum/size:null;

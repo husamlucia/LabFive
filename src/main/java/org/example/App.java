@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -31,13 +33,16 @@ public class App {
 
     private static void generateData() throws Exception {
 
-        Customer[] customers = new Customer[5];
+        Customer[] customers = new Customer[6];
         Game[] games = new Game[5];
         CustomerGame[] orders = new CustomerGame[5];
 
 
-        customers[0] = new Customer("zHey", "Samer", "fusamer@gmail.com");
+        customers[0] = new Customer("zHey", "Samer2", "fusamer@gmail.com");
+        customers[5] = new Customer("zHey", "Samer1", "fusamer@gmail.com");
+
         session.save(customers[0]);
+        session.save(customers[5]);
         games[0] = new Game("Game",   50.0);
         session.save(games[0]);
         for (int i = 1; i < 5; i++) {
@@ -71,7 +76,8 @@ public class App {
     private static List<Customer> getAllCustomers() throws Exception {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Customer> query = builder.createQuery(Customer.class);
-        query.from(Customer.class);
+        Root<Customer> root = query.from(Customer.class);
+        query.orderBy(builder.asc(root.get("fName")),builder.asc(root.get("lName")));
         List<Customer> data = session.createQuery(query).getResultList();
         return data;
     }
