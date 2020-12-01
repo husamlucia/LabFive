@@ -61,7 +61,7 @@ public class Customer {
     }
 
     public String getfName() {
-        return fName;
+        return this.fName;
     }
 
     public void setfName(String fName) {
